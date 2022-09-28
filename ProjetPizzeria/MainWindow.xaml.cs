@@ -12,8 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Diagnostics;
 using System.Windows.Shapes;
+
 
 namespace ProjetPizzeria
 {
@@ -23,17 +23,23 @@ namespace ProjetPizzeria
     public partial class MainWindow : Window
     {
 
-        private void ButtonAddPizza(object sender, RoutedEventArgs e)
+        private void ButtonAddNewClient(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                Trace.WriteLine(txtName.Text);
-            }
+            
+            
         }
 
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void Ajouter_un_client_Click(object sender, RoutedEventArgs e)
+        {
+            AjouterNouveauClient add = new AjouterNouveauClient();
+            add.ShowDialog();
+            add.Close();
+        }
+
     }
 }
