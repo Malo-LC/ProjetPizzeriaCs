@@ -1,0 +1,17 @@
+﻿<Window x:Class="ProjetPizzeria.ChercherClient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjetPizzeria"
+        mc:Ignorable="d"
+        Title="ChercherClient" Height="450" Width="800">
+    <Grid Background="#FFFAFB4E">
+        <Label Content="Rechercher un client" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="263" Stroke="Black" VerticalAlignment="Top" Width="268" Fill="#FF7FF521" Margin="80,77,0,0"/>
+        <TextBox x:Name="TelephoneClient" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="154,133,0,0" TextChanged="TextBox_TextChanged"/>
+        <Button x:Name="ChercherClient1" Content="Chercher" HorizontalAlignment="Left" Margin="188,283,0,0" VerticalAlignment="Top" Click="ChercherClient1_Click"/>
+        <ListBox x:Name="DataClient" Margin="482,77,44,94" SelectionChanged="ListBox_SelectionChanged"/>
+
+    </Grid>
+</Window>

@@ -107,12 +107,42 @@ namespace ProjetPizzeria
         }
         private void AjouterClient_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (NomClient.Text.Length != 0 && PrenomClient.Text.Length != 0)
             {
                 testResultat.Items.Add(NomClient.Text);
                 testResultat.Items.Add(PrenomClient.Text);
                 NomClient.Clear();
                 PrenomClient.Clear();
+            }*/
+
+            MySqlConnection sqlCon = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
+            try
+            {
+                if (sqlCon.State == System.Data.ConnectionState.Closed)
+                {
+                    sqlCon.Open();
+                    MySqlCommand query = new MySqlCommand();
+                    query.Connection = sqlCon;
+                    query.CommandText = "INSERT INTO client(Nom,Prenom,Telephone,DatePremiereCommande,Rue,Zipcode,Ville) VALUES(?Nom,?Prenom,?Telephone,?Date,?Rue,?Zip,?Ville)";
+                    query.Parameters.Add("Nom", MySqlDbType.VarChar).Value = NomClient.Text;
+                    query.Parameters.Add("Prenom", MySqlDbType.VarChar).Value = PrenomClient.Text;
+                    query.Parameters.Add("Telephone", MySqlDbType.Int64).Value = TelephoneClient.Text;
+                    query.Parameters.Add("Date", MySqlDbType.VarChar).Value = DatePremiereCommande.Text;
+                    query.Parameters.Add("Rue", MySqlDbType.VarChar).Value = RueClient.Text;
+                    query.Parameters.Add("Zip", MySqlDbType.Int64).Value = ZipCodeClient.Text;
+                    query.Parameters.Add("Ville", MySqlDbType.VarChar).Value = VilleClient.Text;
+                    query.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                sqlCon.Close();
             }
         }
 

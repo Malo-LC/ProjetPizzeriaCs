@@ -1,0 +1,33 @@
+﻿<Window x:Class="ProjetPizzeria.CommanderPizza"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjetPizzeria"
+        mc:Ignorable="d"
+        Title="CommanderPizza" Height="550" Width="1000">
+    <Grid Background="#FF9C9595">
+        <Label Content="Commande" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="SelectionPizza" d:ItemsSource="{Binding PizzaNames}" Margin="23,92,580,28" SelectionChanged="SelectionPizza_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Label Content="Selectionner la pizza" HorizontalAlignment="Left" Margin="25,65,0,0" VerticalAlignment="Top"/>
+        <Label Content="Selectionner la taille" HorizontalAlignment="Center" Margin="0,44,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="SelectionTaille" d:ItemsSource="{Binding TailleNames}" Margin="301,70,302,261" SelectionChanged="SelectionTaille_SelectionChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="Selectionner le type" HorizontalAlignment="Center" Margin="0,277,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="SelectionType" d:ItemsSource="{Binding TypeNames}" Margin="302,303,302,28" SelectionChanged="SelectionType_SelectionChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ListBox x:Name="SelectionBoisson" d:ItemsSource="{Binding BoissonNames}" Margin="580,92,23,28" SelectionChanged="SelectionBoisson_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <Label Content="Selectionner la boisson" HorizontalAlignment="Left" Margin="843,60,0,0" VerticalAlignment="Top"/>
+        <Label Content="Prix (€) : " HorizontalAlignment="Left" Margin="399,185,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="PrixTotal" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,185,0,0"/>
+        <Button x:Name="PasserCommande" Content="Confirmer" HorizontalAlignment="Center" Margin="0,249,0,0" VerticalAlignment="Top" Click="PasserCommande_Click"/>
+        <DataGrid x:Name="ListePizza" Margin="23,404,10,10" VerticalAlignment="Bottom" SelectionChanged="ListePizza_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding DataPizza}" Header="Pizza" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding DataTaille}" Header="Taille" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding DataType}" Header="Type" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding DataBoisson}" Header="Boisson" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding DataPrix}" Header="Prix" Width="*" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
