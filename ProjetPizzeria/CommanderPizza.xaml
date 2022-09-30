@@ -10,15 +10,15 @@
         <Label Content="Commande" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="SelectionPizza" d:ItemsSource="{Binding PizzaNames}" Margin="23,92,580,28" SelectionChanged="SelectionPizza_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Label Content="Selectionner la pizza" HorizontalAlignment="Left" Margin="25,65,0,0" VerticalAlignment="Top"/>
-        <Label Content="Selectionner la taille" HorizontalAlignment="Center" Margin="0,44,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="SelectionTaille" d:ItemsSource="{Binding TailleNames}" Margin="301,70,302,261" SelectionChanged="SelectionTaille_SelectionChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Label Content="Selectionner le type" HorizontalAlignment="Center" Margin="0,277,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="SelectionType" d:ItemsSource="{Binding TypeNames}" Margin="302,303,302,28" SelectionChanged="SelectionType_SelectionChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="Selectionner la taille" HorizontalAlignment="Left" Margin="260,48,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="SelectionTaille" d:ItemsSource="{Binding TailleNames}" Margin="315,74,0,0" SelectionChanged="SelectionTaille_SelectionChanged" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="Selectionner le type" HorizontalAlignment="Left" Margin="499,48,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="SelectionType" d:ItemsSource="{Binding TypeNames}" Margin="554,74,0,0" SelectionChanged="SelectionType_SelectionChanged" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ListBox x:Name="SelectionBoisson" d:ItemsSource="{Binding BoissonNames}" Margin="580,92,23,28" SelectionChanged="SelectionBoisson_SelectionChanged" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <Label Content="Selectionner la boisson" HorizontalAlignment="Left" Margin="843,60,0,0" VerticalAlignment="Top"/>
         <Label Content="Prix (€) : " HorizontalAlignment="Left" Margin="399,185,0,0" VerticalAlignment="Top"/>
         <Label x:Name="PrixTotal" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,185,0,0"/>
-        <Button x:Name="PasserCommande" Content="Confirmer" HorizontalAlignment="Center" Margin="0,249,0,0" VerticalAlignment="Top" Click="PasserCommande_Click"/>
+        <Button x:Name="AjouterItem" Content="Ajouter à la commande" HorizontalAlignment="Left" Margin="224,292,0,0" VerticalAlignment="Top" Click="AjouterItem_Click"/>
         <DataGrid x:Name="ListePizza" Margin="23,404,10,10" VerticalAlignment="Bottom" SelectionChanged="ListePizza_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding DataPizza}" Header="Pizza" Width="*" IsReadOnly="True" />
@@ -28,6 +28,7 @@
                 <DataGridTextColumn Binding="{Binding DataPrix}" Header="Prix" Width="*" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="PasserCommande" Content="Passer la commande" HorizontalAlignment="Left" Margin="629,327,0,0" VerticalAlignment="Top" Click="PasserCommande_Click"/>
 
     </Grid>
 </Window>

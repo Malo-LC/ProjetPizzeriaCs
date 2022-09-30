@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
@@ -16,6 +17,7 @@ namespace ProjetPizzeria
         private double PrixBoisson = 0.00;
         private double PrixType = 0.00;
         private double PrixPizza = 0.00;
+        private int IdLastCommande;
 
         public class MyPizzaData
         {
@@ -72,8 +74,13 @@ namespace ProjetPizzeria
 
         private void SelectionPizza_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(SelectionPizza.SelectedItem != null) 
-            { 
+            if (SelectionPizza.SelectedItem == null)
+            {
+                PrixPizza = 0;
+                SetPrice();
+                return;
+            }
+
             if (SelectionPizza.SelectedItem.Equals("Margherita"))
             {
                 PrixPizza = 0.00;
@@ -82,12 +89,18 @@ namespace ProjetPizzeria
             {
                 PrixPizza = 1.00;
             }
-            }
+
             SetPrice();
         }
 
         private void SelectionTaille_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (SelectionTaille.SelectedItem == null)
+            {
+                PrixTaille = 0;
+                SetPrice();
+                return;
+            }
             if (SelectionTaille.SelectedItem.Equals("Petite"))
             {
                 PrixTaille = 7.00;
@@ -105,6 +118,12 @@ namespace ProjetPizzeria
 
         private void SelectionBoisson_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (SelectionBoisson.SelectedItem == null)
+            {
+                PrixBoisson = 0;
+                SetPrice();
+                return;
+            }
             if (SelectionBoisson.SelectedItem.Equals("Vittel"))
             {
                 PrixBoisson = 0.50;
@@ -127,7 +146,14 @@ namespace ProjetPizzeria
 
         private void SelectionType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(SelectionType.SelectedItem.Equals("Toutes garnies"))
+            if (SelectionType.SelectedItem == null)
+            {
+                PrixType = 0;
+                SetPrice();
+
+                return;
+            }
+            if (SelectionType.SelectedItem.Equals("Toutes garnies"))
             {
                 PrixType = 2.00;
             }
@@ -143,10 +169,10 @@ namespace ProjetPizzeria
             PrixTotal.Content = PrixTaille + PrixBoisson + PrixType + PrixPizza;
         }
 
-        private void PasserCommande_Click(object sender, RoutedEventArgs e)
+        private void AjouterItem_Click(object sender, RoutedEventArgs e)
         {
             MyPizzaData data = new MyPizzaData();
-            if(SelectionPizza.SelectedItem != null && SelectionTaille.SelectedItem != null && SelectionType.SelectedItem != null)
+            if (SelectionPizza.SelectedItem != null && SelectionTaille.SelectedItem != null && SelectionType.SelectedItem != null)
             {
                 data.DataPizza = SelectionPizza.SelectedItem.ToString();
                 data.DataType = SelectionType.SelectedItem.ToString();
@@ -161,40 +187,64 @@ namespace ProjetPizzeria
                     data.DataBoisson = null;
                 }
                 data.DataPrix = PrixTotal.Content;
-                Trace.WriteLine(data);
 
                 ListePizza.Items.Add(data);
 
+
+                SelectionBoisson.UnselectAll();
+                SelectionPizza.UnselectAll();
+                SelectionType.UnselectAll();
+                SelectionTaille.UnselectAll();
             }
-            
-            
-            
-            
-            /*
+        }
+
+        private void ListePizza_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void PasserCommande_Click(object sender, RoutedEventArgs e)
+        {
             MySqlConnection sqlCon = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
             try
             {
                 if (sqlCon.State == System.Data.ConnectionState.Closed)
                 {
                     sqlCon.Open();
-                    MySqlCommand query = new MySqlCommand();
-                    query.Connection = sqlCon;
-                    query.CommandText = "INSERT INTO commande * FROM client WHERE Telephone = ?Tel";
-                    query.Parameters.Add("Tel", MySqlDbType.Int64).Value = TelephoneClient.Text;
-                    var reader = query.ExecuteReader();
-                    DataClient.Items.Clear();
+                    MySqlCommand queryCommande = new MySqlCommand();
+                    queryCommande.Connection = sqlCon;
+                    queryCommande.CommandText = "INSERT INTO commande(heure,date,IDclient,nomClient) values(?heure,?date,?IDclient,?nomClient)";
+                    queryCommande.Parameters.Add("heure", MySqlDbType.VarChar).Value = DateTime.Now.ToString("hh:mm:ss tt");
+                    queryCommande.Parameters.Add("date", MySqlDbType.VarChar).Value = DateTime.Now.ToString("d/M/yyyy");
+                    queryCommande.Parameters.Add("IDclient", MySqlDbType.Int64).Value = 15;
+                    queryCommande.Parameters.Add("nomClient", MySqlDbType.VarChar).Value = "Malo";
+                    queryCommande.ExecuteNonQuery();
+                    ///////////////////////////////////
+                    
+                    MySqlCommand queryLastCommande = new MySqlCommand();
+                    queryLastCommande.Connection = sqlCon;
+                    queryLastCommande.CommandText = "select * from command order by ID desc limit 1";
+                    var reader = queryLastCommande.ExecuteReader();
                     if (reader.Read())
                     {
-                        DataClient.Items.Add("Nom : " + reader["Nom"]);
-                        DataClient.Items.Add("Prenom : " + reader["Prenom"]);
-                        DataClient.Items.Add("Telephone : " + reader["Telephone"]);
-                        DataClient.Items.Add("Adresse : " + reader["Rue"] + " | " + reader["Ville"]);
+                        IdLastCommande = (int)reader["ID"];
                     }
-                    else
-                    {
-                        DataClient.Items.Add("Aucun client trouvé");
+
+                    ///////////////////////////////////
+                    
+                    for(int i = 0; i < ListePizza.Items.Count; i++)
+                    { 
+                        
+                        MySqlCommand queryItem = new MySqlCommand();
+                        queryItem.Connection = sqlCon;
+                        var rowContainer = GetR
+                        queryItem.CommandText = "inert into commandeitem(commandeID,pizza,taille,type,boisson,prix) values(?cid,?pizza,?taille,?type,?boisson,?prix)";
+                        queryItem.Parameters.Add("cid", MySqlDbType.Int64).Value = IdLastCommande;
+                        ListePizza.SelectedCells = new DataGridCellInfo(ListePizza.Items[i], ListePizza.Columns[0])
+                        queryItem.Parameters.Add("pizza", MySqlDbType.VarChar).Value = ;
+                        queryItem.Parameters.Add("taille", MySqlDbType.VarChar).Value = IdLastCommande;
+
                     }
-                    reader.Close();
 
                 }
             }
@@ -205,12 +255,17 @@ namespace ProjetPizzeria
             finally
             {
                 sqlCon.Close();
-            }*/
+            }
         }
-
-        private void ListePizza_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public IEnumerable<datagridrow> GetDataGridRows(DataGrid grid)
         {
-
+            var itemsSource = grid.ItemsSource as IEnumerable;
+            if (null == itemsSource) yield return null;
+            foreach (var item in itemsSource)
+            {
+                var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                if (null != row) yield return row;
+            }
         }
     }
 }
