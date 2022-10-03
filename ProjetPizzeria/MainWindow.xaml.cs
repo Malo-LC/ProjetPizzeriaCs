@@ -41,5 +41,12 @@ namespace ProjetPizzeria
             commande.ShowDialog();
             commande.Close();
         }
+
+        private void ToutClients_Click(object sender, RoutedEventArgs e)
+        {
+            VoirToutEntitee client = new VoirToutEntitee();
+            client.ShowDialog();
+            client.Close();
+        }
     }
 }

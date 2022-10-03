@@ -19,6 +19,8 @@ namespace ProjetPizzeria
         private double PrixType = 0.00;
         private double PrixPizza = 0.00;
         private int IdLastCommande;
+        private int IdClient;
+        private string NomClient;
 
         public class MyPizzaData
         {
@@ -206,19 +208,49 @@ namespace ProjetPizzeria
 
         private void PasserCommande_Click(object sender, RoutedEventArgs e)
         {
+            if (TelClient.Text == "" || !int.TryParse(TelClient.Text,out int value))
+            {
+                MessageBox.Show("Veuillez entrer un téléphone valide");
+                return;
+            }
+            if (ListePizza.Items.Count == 0)
+            {
+                MessageBox.Show("Liste de la commande vide !");
+                return;
+            }
             MySqlConnection sqlCon = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
             try
             {
                 if (sqlCon.State == System.Data.ConnectionState.Closed)
                 {
                     sqlCon.Open();
+                    MySqlCommand queryClient = new MySqlCommand();
+                    queryClient.Connection = sqlCon;
+                    queryClient.CommandText = "SELECT * FROM client WHERE Telephone = ?tel";
+                    queryClient.Parameters.Add("tel", MySqlDbType.Int32).Value = TelClient.Text.ToString();
+                    var readerCl = queryClient.ExecuteReader();
+                    if (readerCl.Read())
+                    {
+                        Trace.WriteLine("Test");
+                        IdClient = (int)readerCl["ID"];
+                        NomClient = (string)readerCl["Nom"];
+                    }
+                    else
+                    {
+                        Trace.WriteLine("TestNon");
+                        MessageBox.Show("Aucun client trouvé avec ce numéro de téléphone");
+                        return;
+                    }
+                    readerCl.Close();
+
+                    /////////////////////////////////////////
                     MySqlCommand queryCommande = new MySqlCommand();
                     queryCommande.Connection = sqlCon;
                     queryCommande.CommandText = "INSERT INTO commande(heureCmd,date,IDclient,nomClient) values(?heure,?date,?IDclient,?nomClient)";
                     queryCommande.Parameters.Add("heure", MySqlDbType.VarChar).Value = DateTime.Now.ToString("hh:mm:ss tt");
                     queryCommande.Parameters.Add("date", MySqlDbType.VarChar).Value = DateTime.Now.ToString("d/M/yyyy");
-                    queryCommande.Parameters.Add("IDclient", MySqlDbType.Int64).Value = 15;
-                    queryCommande.Parameters.Add("nomClient", MySqlDbType.VarChar).Value = "Malo";
+                    queryCommande.Parameters.Add("IDclient", MySqlDbType.Int64).Value = IdClient;
+                    queryCommande.Parameters.Add("nomClient", MySqlDbType.VarChar).Value = NomClient;
                     queryCommande.ExecuteNonQuery();
                     ///////////////////////////////////
                     
@@ -236,19 +268,29 @@ namespace ProjetPizzeria
                     
                     foreach(MyPizzaData dgItem in ListePizza.Items)
                     {
-                            string item = dgItem.DataBoisson.ToString();
-                            Trace.WriteLine(item);
-                            MySqlCommand queryItem = new MySqlCommand();
-                            queryItem.Connection = sqlCon;
-                            queryItem.CommandText = "insert into commandeitem(commandeID,pizza,taille,type,boisson,prix) values(?cid,?pizza,?taille,?type,?boisson,?prix)";
-                            queryItem.Parameters.Add("cid", MySqlDbType.Int64).Value = IdLastCommande;
-                            queryItem.Parameters.Add("pizza", MySqlDbType.VarChar).Value = dgItem.DataPizza.ToString();
-                            queryItem.Parameters.Add("taille", MySqlDbType.VarChar).Value = dgItem.DataTaille.ToString();
-                            queryItem.Parameters.Add("type", MySqlDbType.VarChar).Value = dgItem.DataType.ToString();
+                        string item = dgItem.DataBoisson.ToString();
+                        Trace.WriteLine(item);
+                        MySqlCommand queryItem = new MySqlCommand();
+                        queryItem.Connection = sqlCon;
+                        queryItem.CommandText = "insert into commandeitem(commandeID,pizza,taille,type,boisson,prix) values(?cid,?pizza,?taille,?type,?boisson,?prix)";
+                        queryItem.Parameters.Add("cid", MySqlDbType.Int64).Value = IdLastCommande;
+                        queryItem.Parameters.Add("pizza", MySqlDbType.VarChar).Value = dgItem.DataPizza.ToString();
+                        queryItem.Parameters.Add("taille", MySqlDbType.VarChar).Value = dgItem.DataTaille.ToString();
+                        queryItem.Parameters.Add("type", MySqlDbType.VarChar).Value = dgItem.DataType.ToString();
+                        if(dgItem.DataBoisson == null)
+                        {
+                            queryItem.Parameters.Add("boisson", MySqlDbType.VarChar).Value = null;
+
+                        }
+                        else
+                        {
                             queryItem.Parameters.Add("boisson", MySqlDbType.VarChar).Value = dgItem.DataBoisson.ToString();
-                            queryItem.Parameters.Add("prix", MySqlDbType.Double).Value = dgItem.DataPrix.ToString();
-                            queryItem.ExecuteNonQuery();
+                        }
+                        queryItem.Parameters.Add("prix", MySqlDbType.Double).Value = dgItem.DataPrix.ToString();
+                        queryItem.ExecuteNonQuery();
                     }
+                    ListePizza.Items.Clear();
+                    MessageBox.Show("Commande Validée");
                 }
             }
             catch (Exception ex)
@@ -258,8 +300,6 @@ namespace ProjetPizzeria
             finally
             {
                 sqlCon.Close();
-                ListePizza.Items.Clear();
-                MessageBox.Show("Commande Validée");
             }
         }
 
