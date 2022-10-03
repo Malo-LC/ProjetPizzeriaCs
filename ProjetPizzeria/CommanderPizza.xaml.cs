@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 
 namespace ProjetPizzeria
@@ -26,7 +27,7 @@ namespace ProjetPizzeria
             public string DataTaille { set; get; }
             public string DataType { set; get; }
             public string DataBoisson { set; get; }
-            public object DataPrix { set; get; }
+            public double DataPrix { set; get; }
         }
         public CommanderPizza()
         {
@@ -186,7 +187,7 @@ namespace ProjetPizzeria
                 {
                     data.DataBoisson = null;
                 }
-                data.DataPrix = PrixTotal.Content;
+                data.DataPrix = (double)PrixTotal.Content;
 
                 ListePizza.Items.Add(data);
 
@@ -213,7 +214,7 @@ namespace ProjetPizzeria
                     sqlCon.Open();
                     MySqlCommand queryCommande = new MySqlCommand();
                     queryCommande.Connection = sqlCon;
-                    queryCommande.CommandText = "INSERT INTO commande(heure,date,IDclient,nomClient) values(?heure,?date,?IDclient,?nomClient)";
+                    queryCommande.CommandText = "INSERT INTO commande(heureCmd,date,IDclient,nomClient) values(?heure,?date,?IDclient,?nomClient)";
                     queryCommande.Parameters.Add("heure", MySqlDbType.VarChar).Value = DateTime.Now.ToString("hh:mm:ss tt");
                     queryCommande.Parameters.Add("date", MySqlDbType.VarChar).Value = DateTime.Now.ToString("d/M/yyyy");
                     queryCommande.Parameters.Add("IDclient", MySqlDbType.Int64).Value = 15;
@@ -223,29 +224,31 @@ namespace ProjetPizzeria
                     
                     MySqlCommand queryLastCommande = new MySqlCommand();
                     queryLastCommande.Connection = sqlCon;
-                    queryLastCommande.CommandText = "select * from command order by ID desc limit 1";
+                    queryLastCommande.CommandText = "select * from commande order by ID desc limit 1";
                     var reader = queryLastCommande.ExecuteReader();
                     if (reader.Read())
                     {
                         IdLastCommande = (int)reader["ID"];
                     }
+                    reader.Close();
 
                     ///////////////////////////////////
                     
-                    for(int i = 0; i < ListePizza.Items.Count; i++)
-                    { 
-                        
-                        MySqlCommand queryItem = new MySqlCommand();
-                        queryItem.Connection = sqlCon;
-                        var rowContainer = GetR
-                        queryItem.CommandText = "inert into commandeitem(commandeID,pizza,taille,type,boisson,prix) values(?cid,?pizza,?taille,?type,?boisson,?prix)";
-                        queryItem.Parameters.Add("cid", MySqlDbType.Int64).Value = IdLastCommande;
-                        ListePizza.SelectedCells = new DataGridCellInfo(ListePizza.Items[i], ListePizza.Columns[0])
-                        queryItem.Parameters.Add("pizza", MySqlDbType.VarChar).Value = ;
-                        queryItem.Parameters.Add("taille", MySqlDbType.VarChar).Value = IdLastCommande;
-
+                    foreach(MyPizzaData dgItem in ListePizza.Items)
+                    {
+                            string item = dgItem.DataBoisson.ToString();
+                            Trace.WriteLine(item);
+                            MySqlCommand queryItem = new MySqlCommand();
+                            queryItem.Connection = sqlCon;
+                            queryItem.CommandText = "insert into commandeitem(commandeID,pizza,taille,type,boisson,prix) values(?cid,?pizza,?taille,?type,?boisson,?prix)";
+                            queryItem.Parameters.Add("cid", MySqlDbType.Int64).Value = IdLastCommande;
+                            queryItem.Parameters.Add("pizza", MySqlDbType.VarChar).Value = dgItem.DataPizza.ToString();
+                            queryItem.Parameters.Add("taille", MySqlDbType.VarChar).Value = dgItem.DataTaille.ToString();
+                            queryItem.Parameters.Add("type", MySqlDbType.VarChar).Value = dgItem.DataType.ToString();
+                            queryItem.Parameters.Add("boisson", MySqlDbType.VarChar).Value = dgItem.DataBoisson.ToString();
+                            queryItem.Parameters.Add("prix", MySqlDbType.Double).Value = dgItem.DataPrix.ToString();
+                            queryItem.ExecuteNonQuery();
                     }
-
                 }
             }
             catch (Exception ex)
@@ -255,17 +258,14 @@ namespace ProjetPizzeria
             finally
             {
                 sqlCon.Close();
+                ListePizza.Items.Clear();
+                MessageBox.Show("Commande Validée");
             }
         }
-        public IEnumerable<datagridrow> GetDataGridRows(DataGrid grid)
+
+        private void TelClient_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var itemsSource = grid.ItemsSource as IEnumerable;
-            if (null == itemsSource) yield return null;
-            foreach (var item in itemsSource)
-            {
-                var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
-                if (null != row) yield return row;
-            }
+
         }
     }
 }

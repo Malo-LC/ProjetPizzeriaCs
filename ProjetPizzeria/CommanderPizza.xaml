@@ -18,7 +18,7 @@
         <Label Content="Selectionner la boisson" HorizontalAlignment="Left" Margin="843,60,0,0" VerticalAlignment="Top"/>
         <Label Content="Prix (€) : " HorizontalAlignment="Left" Margin="399,185,0,0" VerticalAlignment="Top"/>
         <Label x:Name="PrixTotal" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,185,0,0"/>
-        <Button x:Name="AjouterItem" Content="Ajouter à la commande" HorizontalAlignment="Left" Margin="224,292,0,0" VerticalAlignment="Top" Click="AjouterItem_Click"/>
+        <Button x:Name="AjouterItem" Content="Ajouter à la commande" HorizontalAlignment="Left" Margin="712,332,0,0" VerticalAlignment="Top" Click="AjouterItem_Click"/>
         <DataGrid x:Name="ListePizza" Margin="23,404,10,10" VerticalAlignment="Bottom" SelectionChanged="ListePizza_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding DataPizza}" Header="Pizza" Width="*" IsReadOnly="True" />
@@ -28,7 +28,9 @@
                 <DataGridTextColumn Binding="{Binding DataPrix}" Header="Prix" Width="*" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="PasserCommande" Content="Passer la commande" HorizontalAlignment="Left" Margin="629,327,0,0" VerticalAlignment="Top" Click="PasserCommande_Click"/>
+        <Button x:Name="PasserCommande" Content="Passer la commande" HorizontalAlignment="Left" Margin="865,332,0,0" VerticalAlignment="Top" Click="PasserCommande_Click"/>
+        <TextBox x:Name="TelClient" HorizontalAlignment="Left" Margin="23,311,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TelClient_TextChanged"/>
+        <Label Content="Téléphone du client :" HorizontalAlignment="Left" Margin="23,280,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
