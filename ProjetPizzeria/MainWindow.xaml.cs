@@ -1,6 +1,5 @@
 ﻿using System.Windows;
-
-
+using System.Windows.Input;
 
 namespace ProjetPizzeria
 {
@@ -20,6 +19,8 @@ namespace ProjetPizzeria
         {
             InitializeComponent();
         }
+
+        
 
         private void Ajouter_un_client_Click(object sender, RoutedEventArgs e)
         {
@@ -54,6 +55,19 @@ namespace ProjetPizzeria
             AjouterCommisLivreur ajouterCommisLivreur = new AjouterCommisLivreur();
             ajouterCommisLivreur.ShowDialog();
             ajouterCommisLivreur.Close();
+        }
+
+        async private void AsyncTest_Click(object sender, RoutedEventArgs e)
+        {
+            await Program.Main(1);
+
+        }
+
+        private void VoirCommandes_Click(object sender, RoutedEventArgs e)
+        {
+            VoirCommandes commandes = new VoirCommandes();
+            commandes.ShowDialog();
+            commandes.Close();
         }
     }
 }

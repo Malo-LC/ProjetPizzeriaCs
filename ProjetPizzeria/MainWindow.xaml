@@ -23,6 +23,8 @@
         <Button x:Name="ToutClients" Content="Toutes les entitées" HorizontalAlignment="Left" Margin="127,178,0,0" VerticalAlignment="Top" Click="ToutClients_Click"/>
         <Label Content="Administration" HorizontalAlignment="Left" Margin="144,18,0,0" VerticalAlignment="Top" Background="#FFBD9595"/>
         <Button x:Name="AddCommisLivr" Content="Ajouter un commis ou livreur" HorizontalAlignment="Left" Margin="200,54,0,0" VerticalAlignment="Top" Click="AddCommisLivr_Click"/>
+        <Button x:Name="AsyncTest" Grid.Column="1" Content="Tester Commandes Async" HorizontalAlignment="Left" Margin="147,63,0,0" Grid.Row="1" VerticalAlignment="Top" Click="AsyncTest_Click"/>
+        <Button x:Name="VoirCommandes" Content="Voir les commandes" HorizontalAlignment="Left" Margin="47,0,0,0" VerticalAlignment="Center" Grid.Column="1" Click="VoirCommandes_Click"/>
 
 
     </Grid>

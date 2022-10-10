@@ -21,6 +21,7 @@ namespace ProjetPizzeria
         private int IdLastCommande;
         private int IdClient;
         private string NomClient;
+        private double CoutTotalCommande = 0;
 
         public class MyPizzaData
         {
@@ -192,7 +193,7 @@ namespace ProjetPizzeria
                 data.DataPrix = (double)PrixTotal.Content;
 
                 ListePizza.Items.Add(data);
-
+                CoutTotalCommande += (double)PrixTotal.Content;
 
                 SelectionBoisson.UnselectAll();
                 SelectionPizza.UnselectAll();
@@ -246,11 +247,12 @@ namespace ProjetPizzeria
                     /////////////////////////////////////////
                     MySqlCommand queryCommande = new MySqlCommand();
                     queryCommande.Connection = sqlCon;
-                    queryCommande.CommandText = "INSERT INTO commande(heureCmd,date,IDclient,nomClient) values(?heure,?date,?IDclient,?nomClient)";
+                    queryCommande.CommandText = "INSERT INTO commande(heureCmd,date,IDclient,nomClient,Total) values(?heure,?date,?IDclient,?nomClient,?Total)";
                     queryCommande.Parameters.Add("heure", MySqlDbType.VarChar).Value = DateTime.Now.ToString("hh:mm:ss tt");
                     queryCommande.Parameters.Add("date", MySqlDbType.VarChar).Value = DateTime.Now.ToString("d/M/yyyy");
                     queryCommande.Parameters.Add("IDclient", MySqlDbType.Int64).Value = IdClient;
                     queryCommande.Parameters.Add("nomClient", MySqlDbType.VarChar).Value = NomClient;
+                    queryCommande.Parameters.Add("Total", MySqlDbType.Double).Value = CoutTotalCommande;
                     queryCommande.ExecuteNonQuery();
                     ///////////////////////////////////
                     
@@ -290,6 +292,8 @@ namespace ProjetPizzeria
                         queryItem.ExecuteNonQuery();
                     }
                     ListePizza.Items.Clear();
+                    CoutTotalCommande = 0;
+                    Program.Main(IdLastCommande);
                     MessageBox.Show("Commande Validée");
                 }
             }

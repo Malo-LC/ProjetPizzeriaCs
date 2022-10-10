@@ -23,19 +23,32 @@ namespace ProjetPizzeria
         {
             InitializeComponent();
             MySqlConnection sqlCon = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
+            MySqlConnection sqlCon2 = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
             try
             {
-                if (sqlCon.State == System.Data.ConnectionState.Closed)
+                if (sqlCon.State == System.Data.ConnectionState.Closed && sqlCon2.State == System.Data.ConnectionState.Closed)
                 {
                     sqlCon.Open();
+                    sqlCon2.Open();
                     MySqlCommand query = new MySqlCommand();
                     query.Connection = sqlCon;
                     query.CommandText = "SELECT * FROM client";
                     var reader = query.ExecuteReader();
                     while (reader.Read())
                     {
+                        MySqlCommand queryTot = new MySqlCommand();
+                        queryTot.Connection = sqlCon2;
+                        queryTot.CommandText = "SELECT c.Total FROM wpfpizzeria.commande c where c.IDclient=?id";
+                        queryTot.Parameters.Add("id", MySqlDbType.Int64).Value = (int)reader["ID"];
+                        var readerTot = queryTot.ExecuteReader();
+                        double total = 0;
+                        while (readerTot.Read())
+                        {
+                            total += (double)readerTot["Total"];
+                        }
+                        readerTot.Close();
                         EntityData data = new EntityData();
-                        data.Cumul = (int)reader["ID"];
+                        data.Cumul = total;
                         data.Type = "Client";
                         data.Ville = (string)reader["Ville"];
                         data.Prenom = (string)reader["Prenom"];
@@ -50,7 +63,7 @@ namespace ProjetPizzeria
                     while (readerCommis.Read())
                     {
                         EntityData data = new EntityData();
-                        data.Cumul = (int)readerCommis["ID"];
+                        data.Cumul = 0;
                         data.Type = "Commis";
                         data.Ville = (string)readerCommis["Ville"];
                         data.Prenom = (string)readerCommis["Prenom"];
@@ -65,7 +78,7 @@ namespace ProjetPizzeria
                     while (readerLivreur.Read())
                     {
                         EntityData data = new EntityData();
-                        data.Cumul = (int)readerLivreur["ID"];
+                        data.Cumul = 0;
                         data.Type = "Livreur";
                         data.Ville = (string)readerLivreur["Ville"];
                         data.Prenom = (string)readerLivreur["Prenom"];
@@ -83,6 +96,7 @@ namespace ProjetPizzeria
             finally
             {
                 sqlCon.Close();
+                sqlCon2.Close();
             }
         }
 
