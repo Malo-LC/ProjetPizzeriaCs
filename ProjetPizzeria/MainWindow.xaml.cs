@@ -48,5 +48,12 @@ namespace ProjetPizzeria
             client.ShowDialog();
             client.Close();
         }
+
+        private void AddCommisLivr_Click(object sender, RoutedEventArgs e)
+        {
+            AjouterCommisLivreur ajouterCommisLivreur = new AjouterCommisLivreur();
+            ajouterCommisLivreur.ShowDialog();
+            ajouterCommisLivreur.Close();
+        }
     }
 }

@@ -16,11 +16,13 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button x:Name="Ajouter_un_client" Content="Ajouter un client" HorizontalAlignment="Left" Margin="79,62,0,0" VerticalAlignment="Top" Click="Ajouter_un_client_Click"/>
+        <Button x:Name="Ajouter_un_client" Content="Ajouter un client" HorizontalAlignment="Left" Margin="42,54,0,0" VerticalAlignment="Top" Click="Ajouter_un_client_Click"/>
         <Label Content="Commander une pizza" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FFBDA4A4" Grid.Column="1" BorderBrush="#FF0A0A0A"/>
-        <Button x:Name="ChercherClient" Content="Chercher un client" HorizontalAlignment="Left" Margin="262,138,0,0" VerticalAlignment="Top" Click="ChercherClient_Click"/>
-        <Button x:Name="CommanderPizza" Grid.Column="1" Content="Faire une commande" HorizontalAlignment="Left" Margin="165,128,0,0" VerticalAlignment="Top" Click="CommanderPizza_Click"/>
-        <Button x:Name="ToutClients" Content="Tout les clients" HorizontalAlignment="Left" Margin="262,55,0,0" Grid.Row="1" VerticalAlignment="Top" Click="ToutClients_Click"/>
+        <Button x:Name="ChercherClient" Content="Chercher un client" HorizontalAlignment="Left" Margin="34,123,0,0" VerticalAlignment="Top" Click="ChercherClient_Click"/>
+        <Button x:Name="CommanderPizza" Grid.Column="1" Content="Faire une commande" HorizontalAlignment="Left" Margin="275,0,0,0" VerticalAlignment="Center" Click="CommanderPizza_Click"/>
+        <Button x:Name="ToutClients" Content="Toutes les entitées" HorizontalAlignment="Left" Margin="127,178,0,0" VerticalAlignment="Top" Click="ToutClients_Click"/>
+        <Label Content="Administration" HorizontalAlignment="Left" Margin="144,18,0,0" VerticalAlignment="Top" Background="#FFBD9595"/>
+        <Button x:Name="AddCommisLivr" Content="Ajouter un commis ou livreur" HorizontalAlignment="Left" Margin="200,54,0,0" VerticalAlignment="Top" Click="AddCommisLivr_Click"/>
 
 
     </Grid>

@@ -42,6 +42,38 @@ namespace ProjetPizzeria
                         data.Nom = (string)reader["Nom"];
                         EntityList.Items.Add(data);
                     }
+                    reader.Close();
+                    MySqlCommand queryCommis = new MySqlCommand();
+                    queryCommis.Connection = sqlCon;
+                    queryCommis.CommandText = "SELECT * FROM commis";
+                    var readerCommis = queryCommis.ExecuteReader();
+                    while (readerCommis.Read())
+                    {
+                        EntityData data = new EntityData();
+                        data.Cumul = (int)readerCommis["ID"];
+                        data.Type = "Commis";
+                        data.Ville = (string)readerCommis["Ville"];
+                        data.Prenom = (string)readerCommis["Prenom"];
+                        data.Nom = (string)readerCommis["Nom"];
+                        EntityList.Items.Add(data);
+                    }
+                    readerCommis.Close();
+                    MySqlCommand queryLivreur = new MySqlCommand();
+                    queryLivreur.Connection = sqlCon;
+                    queryLivreur.CommandText = "SELECT * FROM livreur";
+                    var readerLivreur = queryLivreur.ExecuteReader();
+                    while (readerLivreur.Read())
+                    {
+                        EntityData data = new EntityData();
+                        data.Cumul = (int)readerLivreur["ID"];
+                        data.Type = "Livreur";
+                        data.Ville = (string)readerLivreur["Ville"];
+                        data.Prenom = (string)readerLivreur["Prenom"];
+                        data.Nom = (string)readerLivreur["Nom"];
+                        EntityList.Items.Add(data);
+                    }
+                    readerLivreur.Close();
+
                 }
             }
             catch (Exception ex)
