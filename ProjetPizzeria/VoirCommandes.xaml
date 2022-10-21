@@ -17,6 +17,7 @@
                     <DataGridTextColumn Binding="{Binding Heure}" Header="Date et Heure" Width="*" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
+            <Button x:Name="refresh" Content="Rafraichir" HorizontalAlignment="Center" Margin="0,294,0,0" VerticalAlignment="Top" Click="refresh_Click"/>
         </Grid>
 
     </Grid>

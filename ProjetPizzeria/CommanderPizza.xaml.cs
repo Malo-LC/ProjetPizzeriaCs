@@ -232,13 +232,11 @@ namespace ProjetPizzeria
                     var readerCl = queryClient.ExecuteReader();
                     if (readerCl.Read())
                     {
-                        Trace.WriteLine("Test");
                         IdClient = (int)readerCl["ID"];
                         NomClient = (string)readerCl["Nom"];
                     }
                     else
                     {
-                        Trace.WriteLine("TestNon");
                         MessageBox.Show("Aucun client trouvé avec ce numéro de téléphone");
                         return;
                     }
@@ -270,8 +268,6 @@ namespace ProjetPizzeria
                     
                     foreach(MyPizzaData dgItem in ListePizza.Items)
                     {
-                        string item = dgItem.DataBoisson.ToString();
-                        Trace.WriteLine(item);
                         MySqlCommand queryItem = new MySqlCommand();
                         queryItem.Connection = sqlCon;
                         queryItem.CommandText = "insert into commandeitem(commandeID,pizza,taille,type,boisson,prix) values(?cid,?pizza,?taille,?type,?boisson,?prix)";
@@ -281,7 +277,7 @@ namespace ProjetPizzeria
                         queryItem.Parameters.Add("type", MySqlDbType.VarChar).Value = dgItem.DataType.ToString();
                         if(dgItem.DataBoisson == null)
                         {
-                            queryItem.Parameters.Add("boisson", MySqlDbType.VarChar).Value = null;
+                            queryItem.Parameters.Add("boisson", MySqlDbType.VarChar).Value = "null";
 
                         }
                         else
@@ -293,8 +289,8 @@ namespace ProjetPizzeria
                     }
                     ListePizza.Items.Clear();
                     CoutTotalCommande = 0;
-                    Program.Main(IdLastCommande);
                     MessageBox.Show("Commande Validée");
+                    Program.Main(IdLastCommande);
                 }
             }
             catch (Exception ex)

@@ -33,6 +33,16 @@ namespace ProjetPizzeria
         public VoirCommandes()
         {
             InitializeComponent();
+            Refresh();
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Refresh()
+        {
             MySqlConnection sqlCon = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
             MySqlConnection sqlCon2 = new MySqlConnection("Server=localhost;Database=wpfpizzeria;User Id=root;Password=password;");
             try
@@ -49,13 +59,13 @@ namespace ProjetPizzeria
                     {
                         MySqlCommand queryTot = new MySqlCommand();
                         queryTot.Connection = sqlCon2;
-                        queryTot.CommandText = "SELECT * FROM etatCommande where commandeID=?id";
+                        queryTot.CommandText = "SELECT * FROM etat where IDcom=?id";
                         queryTot.Parameters.Add("id", MySqlDbType.Int64).Value = (int)reader["ID"];
                         var readerEtat = queryTot.ExecuteReader();
                         CommandeData data = new CommandeData();
                         while (readerEtat.Read())
                         {
-                            data.Etat = (string)readerEtat["etat"];
+                            data.Etat = (string)readerEtat["etatcom"];
                         }
                         readerEtat.Close();
                         data.Nom = (string)reader["nomClient"];
@@ -65,6 +75,7 @@ namespace ProjetPizzeria
                         CommandesListe.Items.Add(data);
                     }
                     reader.Close();
+
 
 
                 }
@@ -79,10 +90,12 @@ namespace ProjetPizzeria
                 sqlCon2.Close();
             }
         }
+    
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void refresh_Click(object sender, RoutedEventArgs e)
         {
-
+            CommandesListe.Items.Clear();
+             Refresh();
         }
     }
 }
