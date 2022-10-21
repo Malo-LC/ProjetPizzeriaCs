@@ -209,9 +209,19 @@ namespace ProjetPizzeria
 
         private void PasserCommande_Click(object sender, RoutedEventArgs e)
         {
-            if (TelClient.Text == "" || !int.TryParse(TelClient.Text,out int value))
+            if (TelClient.Text == "" || !int.TryParse(TelClient.Text, out int value))
             {
-                MessageBox.Show("Veuillez entrer un téléphone valide");
+                MessageBox.Show("Veuillez entrer un téléphone client valide");
+                return;
+            }
+            if (TelCommis.Text == "" || !int.TryParse(TelCommis.Text, out int num))
+            {
+                MessageBox.Show("Veuillez entrer un téléphone commis valide");
+                return;
+            }
+            if (TelLivreur.Text == "" || !int.TryParse(TelLivreur.Text, out int inte))
+            {
+                MessageBox.Show("Veuillez entrer un téléphone livreur valide");
                 return;
             }
             if (ListePizza.Items.Count == 0)
@@ -289,6 +299,22 @@ namespace ProjetPizzeria
                     }
                     ListePizza.Items.Clear();
                     CoutTotalCommande = 0;
+
+                    ////////////////////////////////////////////////////
+                    MySqlCommand queryCommis = new MySqlCommand();
+                    queryCommis.Connection = sqlCon;
+                    queryCommis.CommandText = "insert into suivicommis(tel,idcom) values(?tel,?id)";
+                    queryCommis.Parameters.Add("tel", MySqlDbType.Int64).Value = TelCommis.Text.ToString();
+                    queryCommis.Parameters.Add("id", MySqlDbType.Int64).Value = IdLastCommande;
+                    queryCommis.ExecuteNonQuery();
+
+                    MySqlCommand queryLivreur = new MySqlCommand();
+                    queryLivreur.Connection = sqlCon;
+                    queryLivreur.CommandText = "insert into suivilivreur(tel,idcom) values(?tel,?id)";
+                    queryLivreur.Parameters.Add("tel", MySqlDbType.Int64).Value = TelLivreur.Text.ToString();
+                    queryLivreur.Parameters.Add("id", MySqlDbType.Int64 ).Value = IdLastCommande;
+                    queryLivreur.ExecuteNonQuery();
+
                     MessageBox.Show("Commande Validée");
                     Program.Main(IdLastCommande);
                 }
@@ -304,6 +330,16 @@ namespace ProjetPizzeria
         }
 
         private void TelClient_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TelCommis_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TelLivreur_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

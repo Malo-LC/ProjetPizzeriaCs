@@ -57,17 +57,16 @@ namespace ProjetPizzeria
             ajouterCommisLivreur.Close();
         }
 
-        async private void AsyncTest_Click(object sender, RoutedEventArgs e)
-        {
-            await Program.Main(1);
-
-        }
-
         private void VoirCommandes_Click(object sender, RoutedEventArgs e)
         {
             VoirCommandes commandes = new VoirCommandes();
             commandes.ShowDialog();
             commandes.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

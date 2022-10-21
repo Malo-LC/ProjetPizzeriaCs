@@ -65,10 +65,11 @@ namespace ProjetPizzeria
                     sqlCon.Open();
                     MySqlCommand query = new MySqlCommand();
                     query.Connection = sqlCon;
-                    query.CommandText = "INSERT INTO commis(Nom, Prenom, Ville) VALUE(?nom,?prenom,?ville)";
+                    query.CommandText = "INSERT INTO commis(Nom, Prenom, Ville) VALUE(?nom,?prenom,?ville,?tel)";
                     query.Parameters.Add("nom", MySqlDbType.VarChar).Value = NomCommis.Text.ToString();
                     query.Parameters.Add("prenom", MySqlDbType.VarChar).Value = PrenomCommis.Text.ToString();
                     query.Parameters.Add("ville", MySqlDbType.VarChar).Value = VilleCommis.Text.ToString();
+                    query.Parameters.Add("tel", MySqlDbType.Int64).Value = TelLivreur.Text.ToString();
                     var reader = query.ExecuteNonQuery();
                    
                 }
@@ -97,10 +98,11 @@ namespace ProjetPizzeria
                     sqlCon.Open();
                     MySqlCommand query = new MySqlCommand();
                     query.Connection = sqlCon;
-                    query.CommandText = "INSERT INTO livreur(Nom, Prenom, Ville) VALUE(?nom,?prenom,?ville)";
+                    query.CommandText = "INSERT INTO livreur(Nom, Prenom, Ville, tel) VALUE(?nom,?prenom,?ville,?tel)";
                     query.Parameters.Add("nom", MySqlDbType.VarChar).Value = Nomlivreur.Text.ToString();
                     query.Parameters.Add("prenom", MySqlDbType.VarChar).Value = PrenomLivreur.Text.ToString();
                     query.Parameters.Add("ville", MySqlDbType.VarChar).Value = VilleLivreur.Text.ToString();
+                    query.Parameters.Add("tel", MySqlDbType.Int64).Value = TelLivreur.Text.ToString();
                     var reader = query.ExecuteNonQuery();
 
                 }
@@ -118,7 +120,15 @@ namespace ProjetPizzeria
                 VilleLivreur.Clear();
             }
         }
-        
-        
+
+        private void TelLivreur_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TelCommis_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

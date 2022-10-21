@@ -31,6 +31,10 @@
         <Button x:Name="PasserCommande" Content="Passer la commande" HorizontalAlignment="Left" Margin="865,332,0,0" VerticalAlignment="Top" Click="PasserCommande_Click"/>
         <TextBox x:Name="TelClient" HorizontalAlignment="Left" Margin="23,311,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TelClient_TextChanged"/>
         <Label Content="Téléphone du client :" HorizontalAlignment="Left" Margin="23,280,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TelCommis" HorizontalAlignment="Left" Margin="168,311,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TelCommis_TextChanged"/>
+        <Label Content="Téléphone du commis" HorizontalAlignment="Left" Margin="162,280,0,0" VerticalAlignment="Top"/>
+        <Label Content="Téléphone du livreur" HorizontalAlignment="Left" Margin="318,280,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TelLivreur" HorizontalAlignment="Left" Margin="318,311,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TelLivreur_TextChanged"/>
 
     </Grid>
 </Window>
