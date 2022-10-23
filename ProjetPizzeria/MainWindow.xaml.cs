@@ -64,9 +64,11 @@ namespace ProjetPizzeria
             commandes.Close();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Stats_Click(object sender, RoutedEventArgs e)
         {
-
+            Stats stat = new Stats();
+            stat.ShowDialog();
+            stat.Close();
         }
     }
 }

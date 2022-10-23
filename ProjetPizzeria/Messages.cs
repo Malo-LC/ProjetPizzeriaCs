@@ -124,7 +124,7 @@ namespace ProjetPizzeria
             await Task.Delay(10000);
             Trace.WriteLine("Arrivé à l'adresse indiquée");
             Trace.WriteLine($"Règlement en espèce de la commande, cout total : {prix}");
-            await Task.Delay(2000);
+            await Task.Delay(5000);
             Trace.WriteLine("Commande livrée avec succès");
             return new Commande();
         }
